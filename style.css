@@ -1,0 +1,517 @@
+/*
+Nota importante:
+
+Busca lo que es BEM notation en google y como utilizarlo
+http://getbem.com/introduction/
+
+Resumen
+
+Basicamente es una forma estandarizada de nombrar las clases en CSS. En la programacion 
+la mayoria de las cosas deben ser consistentes asi que hiciste bien en usar Camel Case.
+Pero si usamos BEM mantenemos mejor consistencia y es mas facil de leer. 
+
+Notacion
+
+Block__Element--Modifier
+
+El block es una entidad que puede estar por si sola es decir el nombre de un componente. Ejemplos:
+navbar, menu, button, header
+
+El element es una parte del bloque que no tiene un significado por si solo. Ejemplo: si tenemos 
+un navbar como bloque y queremos agregar elementos pues se pone navbar__link o navbar__logo.
+
+El modificador se utiliza para cambiar la apariencia de algun bloque o elemento. Ejemplos: 
+desabilitar boton: button--disabled. Link negro en un navbar: navbar__link--black
+*/
+
+/* Algo super chulo de CSS es que podemos declarar variables */
+/* Son super utiles porque si necesitamos cambiar un color pues lo hacemos rapidamente */
+:root {
+  --main: #d9a404;
+  --secondary: #03738c;
+
+  --bg-color: #f9f9f9;
+
+  --btn-color: #d9a404;
+  --white: #fff;
+
+  --dark-gray: #26322b;
+}
+
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+/*Para pasar de px a em pues dividimos los pixeles por 16*/
+/*e.g. 1200px/16 = 75em*/
+
+/* BREAKPOINTS*/
+
+/*
+0 - 600px:      Phone
+600 - 900px:    Tablet portrait
+900 - 1200px:   Tablet landscape
+[1200 - 1800] is where our normal styles apply
+1800px + :      Big desktop
+
+*/
+
+/*Estos media queries se activan cuando estamos en el*/
+/*browser y estamos en una pantalla mas pequeña de 75 em = 1200px*/
+@media only screen and (max-width: 75em) {
+  html {
+    font-size: 56.25%;
+  }
+}
+@media only screen and (max-width: 56.25em) {
+  html {
+    font-size: 50%;
+  }
+}
+@media only screen and (min-width: 120.5em) {
+  html {
+    font-size: 75%;
+  }
+}
+
+body {
+  font-size: 1.4rem;
+  background: var(--bg-color);
+
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.heading-primary {
+  font-family: Merriweather;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 11rem;
+  line-height: 13rem;
+}
+
+@media only screen and (max-width: 37.5em) {
+  .heading-primary {
+    font-size: 7rem;
+    line-height: 8rem;
+  }
+}
+
+@media only screen and (max-width: 20em) {
+  .heading-primary {
+    font-size: 6rem;
+  }
+}
+
+.navbar {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+
+  position: absolute;
+  top: 0;
+  width: 100%;
+
+  list-style-type: none;
+
+  padding: 2rem 4rem;
+
+  font-family: raleway;
+  color: var(--white);
+  font-weight: 600;
+}
+
+.navbar__btn {
+  margin-left: 1rem;
+}
+
+.navbar__item {
+  display: block;
+
+  text-align: center;
+  padding: 1.4rem 1.6rem;
+
+  text-decoration: none;
+
+  color: inherit;
+
+  font-size: 2rem;
+
+  /* El transition no se debe incluir en el hover o evento exactamente sino en el bloque*/
+  /* el transition siempre es bueno incluir solamente lo que usas */
+  transition: transform 0.2s ease-out;
+}
+
+@media only screen and (max-width: 37.5em) {
+  .navbar__item {
+    font-size: 1.5rem;
+  }
+}
+
+.navbar__item:hover {
+  /* No es bueno usar font-size como elemento de animacion por lo expensive que es */
+  /* Siempre es mejor mantenerse entre transform y opacity para animaciones */
+  transform: scale(1.05);
+}
+
+.hero {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.hero__image {
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+
+  position: absolute;
+  z-index: -1;
+}
+
+.hero__logo {
+  width: 70vw;
+}
+
+@media only screen and (max-width: 37.5em) {
+  .hero__logo {
+    width: 95vw;
+  }
+}
+
+.hero__label {
+  font-family: Caveat;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 3rem;
+  color: white;
+  letter-spacing: 0.35rem;
+
+  text-align: center;
+
+  margin-top: 10rem;
+}
+
+@media only screen and (max-width: 37.5em) {
+  .hero__label {
+    font-size: 3rem;
+    width: 80vw;
+  }
+}
+
+.about {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 5rem;
+
+  margin-top: -9rem;
+
+  border-radius: 5rem;
+  background: white;
+}
+
+@media only screen and (max-width: 37.5em) {
+  .about {
+    border-radius: 0;
+  }
+}
+
+.about__header {
+  font-size: 4.5rem;
+  letter-spacing: 0.35rem;
+  color: var(--secondary);
+  font-family: Merriweather;
+  font-weight: bold;
+}
+
+.hLine {
+  border: 0.2rem solid #8c3503;
+  width: 7rem;
+  margin-top: 2rem;
+}
+
+.about__text {
+  max-width: 75rem;
+  margin-top: 2rem;
+  font-family: Raleway;
+  font-size: 2rem;
+  line-height: 160%;
+  text-align: center;
+  color: #000000;
+}
+
+.content-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  position: relative;
+
+  width: 100%;
+}
+
+.content-body__blob {
+  position: absolute;
+
+  width: 100%;
+  height: 138%;
+
+  margin-top: -15rem;
+  z-index: -1;
+}
+
+.features {
+  margin-top: 10rem;
+}
+
+.features__header {
+  text-align: center;
+
+  margin-bottom: 8rem;
+  font-size: 12rem;
+  letter-spacing: 0.03em;
+  line-height: 12rem;
+  color: #03738c;
+}
+
+@media only screen and (max-width: 20em) {
+  .features__header {
+    font-size: 7rem;
+  }
+}
+
+.features-box {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+
+  padding: 4rem;
+  background: white;
+  border-radius: 4rem;
+}
+
+@media only screen and (max-width: 56.25em) {
+  .features-box {
+    padding: 4rem 0rem;
+  }
+}
+
+@media only screen and (max-width: 46.875em) {
+  .features-box {
+    flex-direction: column;
+  }
+}
+
+@media only screen and (max-width: 20em) {
+  .features__box {
+    border-radius: 0;
+  }
+}
+
+.features-box__item {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 0 4rem;
+}
+
+@media only screen and (max-width: 46.875em) {
+  .features-box__item {
+    padding: 2rem 0;
+  }
+}
+
+.features-box__img {
+  width: 6rem;
+}
+
+.features-box__header {
+  margin: 1.4rem 0rem 2.7rem 0rem;
+  font-family: Merriweather;
+  font-size: 2.2rem;
+  font-weight: bold;
+  letter-spacing: 0.085em;
+  color: #8c3503;
+}
+
+.features-box__text {
+  width: 23rem;
+  font-family: Raleway;
+  line-height: 140%;
+  letter-spacing: 1.5rem;
+  font-size: 1.7rem;
+  text-align: center;
+  letter-spacing: 0.095em;
+}
+
+.illustration-box {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  padding: 12rem 0 7rem 0;
+}
+
+@media only screen and (max-width: 43.75em) {
+  .illustration-box {
+    padding: 8rem 0 8rem 0;
+  }
+}
+
+@media only screen and (max-width: 20em) {
+  .illustration-box {
+    padding: 7rem 0 7rem 0;
+  }
+}
+
+.illustration-box__header {
+  color: #03738c;
+  letter-spacing: 0.07em;
+  margin-right: -7rem;
+}
+
+.illustration-box__img {
+  height: 55rem;
+  margin-left: -7rem;
+}
+
+@media only screen and (max-width: 75em) {
+  .illustration-box__img {
+    margin-top: 3rem;
+  }
+}
+
+@media only screen and (max-width: 43.75em) {
+  .illustration-box__img {
+    width: 100%;
+  }
+}
+
+@media only screen and (max-width: 20em) {
+  .illustration-box__img {
+    margin-top: 5rem;
+    height: initial;
+  }
+}
+
+.CTA {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  position: relative;
+
+  width: 100%;
+
+  margin-top: 5rem;
+  padding: 20rem 0;
+}
+
+.CTA__img {
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+
+  position: absolute;
+  z-index: -1;
+
+  filter: brightness(0.6);
+}
+
+.CTA__text-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.CTA__text {
+  color: white;
+  text-align: center;
+  font-size: 12rem;
+}
+
+@media only screen and (max-width: 46.875em) {
+  .CTA__text {
+    font-size: 6rem;
+    line-height: 7.5rem;
+  }
+}
+
+.CTA__btn {
+  margin-top: 8rem;
+}
+
+.footer {
+  width: 100%;
+  padding: 5rem;
+  background-color: var(--dark-gray);
+}
+
+/* COMPONENTS */
+
+/* Los comentarios no deben mostrar sentimientos*/
+
+/* Esta clase aplica para dos botones distintos */
+.btn {
+  border-radius: 6px;
+  background-color: var(--btn-color);
+  border: none;
+  color: var(--white);
+  font-family: raleway;
+  font-weight: 500;
+  text-align: center;
+  font-size: 2.3rem;
+  padding: 1.5rem 2rem;
+  cursor: pointer;
+}
+
+@media only screen and (max-width: 37.5em) {
+  .navbar__item {
+    font-size: 1.5rem;
+  }
+}
+
+.btn span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+.btn span:after {
+  content: "\00bb";
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: opacity 0.5s, right 0.5s;
+}
+
+.btn:hover span {
+  padding-right: 25px;
+}
+
+.btn:hover span:after {
+  opacity: 1;
+  right: 0;
+}
